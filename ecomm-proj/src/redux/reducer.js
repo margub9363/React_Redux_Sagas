@@ -1,4 +1,4 @@
-import { ADD_TO_CART, REMOVE_TO_CART } from "./constant";
+import { ADD_TO_CART, REMOVE_FROM_CART, EMPTY_CART } from "./constant";
 
 export const cartData = (data = [], action) => {
   //   if (action.type === ADD_TO_CART) {
@@ -14,10 +14,17 @@ export const cartData = (data = [], action) => {
       console.log("ADD_TO_CART CONDITION", action);
       return [action.data, ...data];
 
-    case REMOVE_TO_CART:
+    case REMOVE_FROM_CART:
       // Remove from cart
       console.log("REMOVE_TO_CART CONDITION", action);
-      return 1 - 1;
+      data.length = data.length ? data.length - 1 : [];
+      return [...data];
+
+    case EMPTY_CART:
+      // Remove from cart
+      console.log("EMPTY_CART CONDITION", action);
+      data = [];
+      return [...data];
 
     default:
       // no case match
