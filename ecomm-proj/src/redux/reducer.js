@@ -17,8 +17,10 @@ export const cartData = (data = [], action) => {
     case REMOVE_FROM_CART:
       // Remove from cart
       console.log("REMOVE_TO_CART CONDITION", action);
-      data.length = data.length ? data.length - 1 : [];
-      return [...data];
+      // data.length = data.length ? data.length - 1 : [];
+      const remainingItem = data.filter((item) => item.id != action.data);
+      console.log(remainingItem);
+      return [...remainingItem];
 
     case EMPTY_CART:
       // Remove from cart
