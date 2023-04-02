@@ -2,34 +2,41 @@ import { addToCart, removeFromCart, emptyCart } from "../redux/action";
 import { useDispatch } from "react-redux";
 import { productList } from "../redux/productAction";
 import { useSelector } from "react-redux";
+import { useEffect } from "react";
 
 function Main() {
   const data = useSelector((state) => state.productData);
   console.log("Data in main component from saga", data);
   const dipatch = useDispatch();
-  const product = {
-    name: "I phone",
-    type: "mobile",
-    price: "10000",
-    color: "red",
-  };
+
+  useEffect(() => {
+    dipatch(productList());
+  }, []);
   return (
     <div className="App">
       <div>
-        <button onClick={() => dipatch(addToCart(product))}>Add to Cart</button>
+        <button onClick={() => dipatch(emptyCart())}>Empty Cart</button>
       </div>
-      <div>
-        <button onClick={() => dipatch(removeFromCart(product.name))}>
-          Remove from Cart
-        </button>
-      </div>
-      <div>
-        <button onClick={() => dipatch(emptyCart(product))}>Empty Cart</button>
-      </div>
-      <div>
-        <button onClick={() => dipatch(productList(product))}>
-          Get Product List
-        </button>
+
+      <div className="product-container">
+        {data.map((item) => (
+          <div key={item.id} className="product-item">
+            <img src={item.photo} alt="" />
+            <div>Name : {item.name}</div>
+            <div>Brand : {item.brand}</div>
+            <div>Color : {item.color}</div>
+            <div>
+              <button onClick={() => dipatch(addToCart(item))}>
+                Add TO Cart
+              </button>
+            </div>
+            <div>
+              <button onClick={() => dipatch(removeFromCart(item.id))}>
+                Remove TO Cart
+              </button>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );
